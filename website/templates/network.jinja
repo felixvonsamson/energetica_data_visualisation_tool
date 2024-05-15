@@ -1,0 +1,60 @@
+{% extends "base.jinja" %}
+{% block title %}
+    Network
+{% endblock title %}
+{% block content %}
+
+<div class="topRight_info">
+  <div class="resources tan_green">
+    <p class="medium">Select network and date:</p>
+    <form action="/network_and_date" method="POST" autocomplete="off" class="flex-col margin-large">
+        <label for="player">Network</label>
+        <select id="network"
+                name="network_id"
+                class="create_chat_input medium txt_center"
+                style="margin-bottom:10px; width:180px"
+                required>
+            {% for network in network_list %}
+              <option value="{{ network['id'] }}" {% if network['id'] == engine.current_network_id %}selected{% endif %}>{{ network["name"] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Date</label>
+        <select id="date"
+                name="date"
+                class="create_chat_input medium txt_center"
+                style="margin-bottom:10px; width:180px"
+                required>
+            {% for date in date_list %}
+              <option value="{{ date['id'] }}" {% if date['id'] == engine.instance_name %}selected{% endif %}>{{ date["date"] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit"
+                class="bone padding medium login-button"
+                style="margin-top:20px">Show graphs</button>
+    </form>
+  </div>
+</div>
+
+<div class="flex-row huge title">
+    Network : <b>{{ network_list[engine.current_network_id-1]["name"] }}</b>
+</div>
+<div id="market_graph" class="bone" style="padding:30px 0; margin:30px 0;"></div>
+<div class="flex-col medium">
+    <table class="table bone margin">
+        <tr>
+            <th>Members</th>
+        </tr>
+        {% for member in network_members %}
+            <tr>
+                <td>{{ member }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+{% block additionnal_script %}
+    <script>expand_menu('community')</script>
+    <script src="{{ url_for('static', filename='network/market_graph.js') }}"></script>
+{% endblock additionnal_script %}

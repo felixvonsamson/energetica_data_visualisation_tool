@@ -1,0 +1,6 @@
+flask
+flask-SQLAlchemy
+eventlet
+requests
+pandas
+Werkzeug==2.3.*

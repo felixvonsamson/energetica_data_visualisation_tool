@@ -1,0 +1,43 @@
+{% extends "base.jinja" %}
+{% block title %}
+    Generation overview
+{% endblock title %}
+{% block content %}
+<div class="topRight_info">
+  <div class="resources tan_green">
+    <p class="medium">Select player and date:</p>
+    <form action="/player_and_date" method="POST" autocomplete="off" class="flex-col margin-large">
+        <label for="player">Player</label>
+        <select id="player"
+                name="player_id"
+                class="create_chat_input medium txt_center"
+                style="margin-bottom:10px; width:180px"
+                required>
+            {% for player in player_list %}
+              <option value="{{ player['id'] }}" {% if player['id'] == engine.current_player_id %}selected{% endif %}>{{ player["username"] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Date</label>
+        <select id="date"
+                name="date"
+                class="create_chat_input medium txt_center"
+                style="margin-bottom:10px; width:180px"
+                required>
+            {% for date in date_list %}
+              <option value="{{ date['id'] }}" {% if date['id'] == engine.instance_name %}selected{% endif %}>{{ date["date"] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit"
+                class="bone padding medium login-button"
+                style="margin-top:20px">Show graphs</button>
+    </form>
+  </div>
+</div>
+{% block graphs %}
+{% endblock graphs %}
+
+{% endblock content %}
+
+
