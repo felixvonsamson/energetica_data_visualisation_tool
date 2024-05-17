@@ -47,7 +47,7 @@ def get_network_data():
 def get_market_data():
     market_data = {}
     t = int(request.args.get("t"))
-    filename_state = f"network_charts/{g.engine.current_network_id}/market_t{g.engine.current_t-t}.pck"
+    filename_state = f"network_charts/{g.engine.current_network_id}/market_t{int(g.engine.current_t-t)}.pck"
     if Path(filename_state).is_file():
         with open(filename_state, "rb") as file:
             market_data = pickle.load(file)

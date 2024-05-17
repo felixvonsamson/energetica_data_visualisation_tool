@@ -1,3 +1,4 @@
 instances/*
+network_charts/*
 __pycache__
 .DS_Store
