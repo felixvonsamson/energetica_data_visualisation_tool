@@ -4,25 +4,15 @@ import re
 from datetime import datetime
 
 
-def largest_market_number(folder_path):
-    pattern = re.compile(r"market_t(\d+)\.pck")
-    numbers = [
-        int(pattern.match(filename).group(1))
-        for filename in os.listdir(folder_path)
-        if pattern.match(filename)
-    ]
-    return max(numbers, default=-1)
-
-
 # This is the engine object
 class gameEngine(object):
     def __init__(engine):
         engine.current_player_id = 1
         engine.current_network_id = 1
         engine.instance_name = "instance_2024-05-12_1200"
-        engine.current_t = largest_market_number(
-            f"instances/{engine.instance_name}/instance/network_data/{engine.current_network_id}/charts/"
-        )
+        curent_date = datetime.strptime(engine.instance_name.replace("instance_", ""), "%Y-%m-%d_%H%M")
+        engine.start_date = datetime(2024, 4, 19, 10, 38, 45, 342892)
+        engine.current_t = (curent_date-engine.start_date).total_seconds() // 30
         engine.db = create_engine(
             f"sqlite:///instances/{engine.instance_name}/instance/database.db"
         )
@@ -181,6 +171,5 @@ class gameEngine(object):
                 f"sqlite:///instances/{self.instance_name}/instance/database.db"
             )
             self.metadata.reflect(bind=self.db)
-            self.current_t = largest_market_number(
-                f"instances/{self.instance_name}/instance/network_data/{self.current_network_id}/charts/"
-            )
+            curent_date = datetime.strptime(self.instance_name.replace("instance_", ""), "%Y-%m-%d_%H%M")
+            self.current_t = (curent_date-self.start_date).total_seconds() // 30
